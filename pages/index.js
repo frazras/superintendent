@@ -88,13 +88,14 @@ export default function Home() {
             placeholder="Enter a Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            required
           />
          <select
             name="program_format"
             value={programFormat}
             onChange={(e) => setProgramFormat(e.target.value)}
           >
-            <option value="">Select a Program Format.</option>
+            <option value="">Select a Program Format</option>
             <option value="Panel Discussion">Panel Discussion</option>
             <option value="Group Activities & Discussions">Group Activities & Discussions</option>
             <option value="Presentations">Presentations</option>
