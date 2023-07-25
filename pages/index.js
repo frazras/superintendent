@@ -80,7 +80,7 @@ export default function Home() {
       <main className={styles.main}>
         <img src="/dog.png" className={styles.icon} />
         <h3>Superintendent</h3>
-        <h4>Church Program Generator</h4>
+        <h4>Church Program Idea Generator</h4>
         <form onSubmit={onSubmit}>
         <input
             type="text"
