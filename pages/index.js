@@ -9,8 +9,8 @@ export default function Home() {
   const [questions, setQuestions] = useState("");
   const [participants, setParticipants] = useState("");
   const [bibleVerse, setBibleVerse] = useState("");
-  const [egwhite, setEgwhite] = useState(false);
-  const [hymns, setHymns] = useState(false);
+  const [egwhite, setEgwhite] = useState(true);
+  const [hymns, setHymns] = useState(true);
   const [result, setResult] = useState();
   const [buttonText, setButtonText] = useState("Generate Program");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -61,8 +61,8 @@ export default function Home() {
       setQuestions("");
       setParticipants("");
       setBibleVerse("");
-      setEgwhite(false);
-      setHymns(false);
+      setEgwhite(true);
+      setHymns(true);
     } catch(error) {
       // Consider implementing your own error handling logic here
       console.error(error);
