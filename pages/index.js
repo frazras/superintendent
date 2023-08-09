@@ -1,3 +1,6 @@
+'use client'
+import { useEffect, useRef } from "react";
+import { useChat } from 'ai/react'
 import Head from "next/head";
 import { useState } from "react";
 import styles from "./index.module.css";
@@ -14,23 +17,23 @@ export default function Home() {
   const [result, setResult] = useState();
   const [buttonText, setButtonText] = useState("Generate Program");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const { messages, input, handleInputChange, handleSubmit } = useChat({ api: '/api/chat/routes' })
+  const prevInputValuesRef = useRef({});
+
+  useEffect(() => {
+    const inputValues = { title, programFormat, programType, questions, participants, bibleVerse, egwhite, hymns };
+    if (JSON.stringify(prevInputValuesRef.current) !== JSON.stringify(inputValues)) {
+      onInputChange();
+    }
+    prevInputValuesRef.current = inputValues;
+  }, [title, programFormat, programType, questions, participants, bibleVerse, egwhite, hymns]);
 
   async function onSubmit(event) {
-    event.preventDefault();
-    setIsButtonDisabled(true);
-    let counter = 60;
-    setButtonText(`Wait ${counter} seconds`);
+    //event.preventDefault();
+    onInputChange();
+  }
 
-    const interval = setInterval(() => {
-      counter--;
-      setButtonText(`Wait ${counter} seconds`);
-      if (counter === 0) {
-        clearInterval(interval);
-        setButtonText("Generate Program");
-        setIsButtonDisabled(false);
-      }
-    }, 1000);
-
+  async function onInputChange(event) {
     try {
       const response = await fetch("/api/generate", {
         method: "POST",
@@ -54,15 +57,15 @@ export default function Home() {
         throw data.error || new Error(`Request failed with status ${response.status}`);
       }
 
-      setResult(data.result);
-      setTitle("");
-      setProgramFormat("");
-      setProgramType("");
-      setQuestions("");
-      setParticipants("");
-      setBibleVerse("");
-      setEgwhite(true);
-      setHymns(true);
+       // Extract the content values of each 'messages' object
+    const messagesContent = Object.values(data.messages).map(message => message.content).join('\n');
+
+    // Set the result
+    //setResult(messagesContent);
+
+    // Set the chat input to the result
+    handleInputChange({ target: { value: messagesContent } });
+
     } catch(error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -81,7 +84,7 @@ export default function Home() {
         <img src="/dog.png" className={styles.icon} />
         <h3>Superintendent</h3>
         <h4>Church Program Idea Generator</h4>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit}>
         <input
             type="text"
             name="title"
@@ -161,9 +164,23 @@ export default function Home() {
             />
             Hymns
           </label>
-          <input type="submit" value={buttonText} disabled={isButtonDisabled} />
-        </form>
-        <pre className={styles.result}>{result}</pre>
+            <label>
+              <input
+                type="hidden"
+                value={input}
+                onChange={handleInputChange}
+              />
+            </label>
+            <input type="submit" value="Generate Program"/>
+          </form>
+          <pre className={styles.result}>{result}
+            {messages.slice(1).map(m => (
+              <div key={m.id}>
+                {m.role === 'user' ? 'User: ' : 'AI: '}
+                {m.content}
+              </div>
+            ))}
+          </pre>
       </main>
     </div>
   );

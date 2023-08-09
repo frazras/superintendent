@@ -1,16 +1,16 @@
-import axios from "axios";
+//import axios from "axios";
 
 export default async function (req, res) {
   const { title, program_format, program_type, questions, participants, bible_verse, egwhite, hymns } = req.body;
 
-  if (!title || title.trim().length === 0) {
-    res.status(400).json({
-      error: {
-        message: "Please enter a valid title",
-      }
-    });
-    return;
-  }
+  // if (!title || title.trim().length === 0) {
+  //   res.status(400).json({
+  //     error: {
+  //       message: "Please enter a valid title",
+  //     }
+  //   });
+  //   return;
+  // }
 
   const data = {
     model: "gpt-4",
@@ -45,7 +45,7 @@ export default async function (req, res) {
     temperature: 0.1
   };
 
-  try {
+  /*try {
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions", 
       data, 
@@ -69,7 +69,8 @@ export default async function (req, res) {
         }
       });
     }
-  }
+  }*/
+  res.status(200).json(data);
 }
 
 function generatePrompt() {
