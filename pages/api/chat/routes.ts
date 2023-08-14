@@ -12,12 +12,17 @@ export const runtime = 'edge'
  
 export default async function POST(req: Request) {
   // Extract the `messages` from the body of the request
-  const { messages } = await req.json()
+  const { messages, temperature, model } = await req.json()
+  console.log('messages is', messages);
+  console.log('temperature is ', temperature);
+  console.log('model.', model);
  
   // Ask OpenAI for a streaming chat completion given the prompt
   const response = await openai.createChatCompletion({
-    model: 'gpt-4',
+    model: model || 'gpt-4',
     stream: true,
+    temperature: temperature || 0.1,
+    //max_tokens: 10,
     messages
   })
   // Convert the response into a friendly text-stream

@@ -4,6 +4,10 @@ import { useChat } from 'ai/react'
 import Head from "next/head";
 import { useState } from "react";
 import styles from "./index.module.css";
+import CollapsibleField from '../components/CollapsibleField';
+import CopyToClipboard from '../components/CopyToClipboard';
+
+
 
 export default function Home() {
   const [title, setTitle] = useState("");
@@ -17,7 +21,7 @@ export default function Home() {
   const [result, setResult] = useState();
   const [buttonText, setButtonText] = useState("Generate Program");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const { messages, input, handleInputChange, handleSubmit } = useChat({ api: '/api/chat/routes' })
+  const { messages, input, handleInputChange, handleSubmit, setMessages} = useChat({ api: '/api/chat/routes' })
   const prevInputValuesRef = useRef({});
 
   useEffect(() => {
@@ -27,11 +31,6 @@ export default function Home() {
     }
     prevInputValuesRef.current = inputValues;
   }, [title, programFormat, programType, questions, participants, bibleVerse, egwhite, hymns]);
-
-  async function onSubmit(event) {
-    //event.preventDefault();
-    onInputChange();
-  }
 
   async function onInputChange(event) {
     try {
@@ -57,32 +56,38 @@ export default function Home() {
         throw data.error || new Error(`Request failed with status ${response.status}`);
       }
 
-       // Extract the content values of each 'messages' object
-    const messagesContent = Object.values(data.messages).map(message => message.content).join('\n');
-
+      // Extract the content values of each 'messages' object
+      //all but the last array item
+      const systemMessages = data.messages.slice(0, -1);
+      setMessages(systemMessages);
+      // last array item
+      const messagesContent = data.messages[data.messages.length - 1];
+      
     // Set the result
-    //setResult(messagesContent);
-
+    //setResult(messagesContent.content);
+      
     // Set the chat input to the result
-    handleInputChange({ target: { value: messagesContent } });
-
+    if (messagesContent.content) {
+      handleInputChange({ target: { value: messagesContent.content } });
+    }
+    
     } catch(error) {
       // Consider implementing your own error handling logic here
-      console.error(error);
-      alert(error.message);
+      //console.error(error);
+      //alert(error.message);
     }
   }
-
+  //console.log(messages);
   return (
     <div>
       <Head>
-        <title>Superintendent Church Program Idea Generator</title>
+        <title>Sabbath Programmer: Church Program Idea Generator</title>
         <link rel="icon" href="/dog.png" />
       </Head>
 
       <main className={styles.main}>
         <img src="/dog.png" className={styles.icon} />
-        <h3>Superintendent</h3>
+        <h3>Sabbath Programmer</h3>
         <h4>Church Program Idea Generator</h4>
         <form onSubmit={handleSubmit}>
         <input
@@ -115,7 +120,7 @@ export default function Home() {
             <option value="Bible Games & Quizzes">Bible Games & Quizzes</option>
           </select>
 
-          <select
+          {/* <select
             name="program_type"
             value={programType}
             onChange={(e) => setProgramType(e.target.value)}
@@ -123,10 +128,12 @@ export default function Home() {
             <option value="">Select a Program Type</option>
             <option value="sabbath school">Sabbath School</option>
             <option value="AY">AY</option>
-          </select>
+          </select> */}
+          {/* Collapsible fieldset */}
+          <CollapsibleField title="Optional">
           <textarea
             name="questions"
-            placeholder="Enter Questions"
+            placeholder="Enter questions that the program should answer"
             value={questions}
             onChange={(e) => setQuestions(e.target.value)}
           />
@@ -135,14 +142,14 @@ export default function Home() {
             name="participants"
             min="1"
             max="8"
-            placeholder="Enter Participants"
+            placeholder="Enter # of Participants (3)"
             value={participants}
             onChange={(e) => setParticipants(e.target.value)}
           />
           <input
             type="text"
             name="bible_verse"
-            placeholder="Enter a Bible Verse"
+            placeholder="Enter a focus Bible Verse"
             value={bibleVerse}
             onChange={(e) => setBibleVerse(e.target.value)}
           />
@@ -153,7 +160,7 @@ export default function Home() {
               checked={egwhite}
               onChange={(e) => setEgwhite(e.target.checked)}
             />
-            EG White
+            Include EG White quotes
           </label>
           <label>
             <input
@@ -162,7 +169,7 @@ export default function Home() {
               checked={hymns}
               onChange={(e) => setHymns(e.target.checked)}
             />
-            Hymns
+            Suggest Hymns
           </label>
             <label>
               <input
@@ -171,16 +178,22 @@ export default function Home() {
                 onChange={handleInputChange}
               />
             </label>
+          </CollapsibleField>
             <input type="submit" value="Generate Program"/>
           </form>
-          <pre className={styles.result}>{result}
-            {messages.slice(1).map(m => (
-              <div key={m.id}>
-                {m.role === 'user' ? 'User: ' : 'AI: '}
-                {m.content}
-              </div>
-            ))}
-          </pre>
+          <CopyToClipboard>
+            <pre className={styles.result}>{result}
+              {messages.slice(4).map(m => (
+                <div key={m.id}>
+                  {m.content}
+                </div>
+              ))}
+            </pre>
+          </CopyToClipboard>
+          <small className={styles.small}>
+          If generation fails, please refresh the page. 
+          <div>A product of <a href="https://sabbathprogram.com">Sabbath Programs</a></div>
+          </small>
       </main>
     </div>
   );

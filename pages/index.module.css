@@ -69,6 +69,46 @@
   text-align: center;
   cursor: pointer;
 }
+.main input[type="submit"]:hover {
+  background-color: #0e8e6d;
+}
+.main fieldset input, .main fieldset label, .main fieldset textarea {
+  width: 80%;
+  display: inline-block;
+}
+/* Collapsible fieldset */
+.main fieldset {
+  margin-bottom: 10px;
+}
+
+.main fieldset legend {
+  font-size: 16px;
+  line-height: 24px;
+  color: #353740;
+  font-family: "ColfaxAI", Helvetica, sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 15px;
+  margin: 0;
+}
+.main fieldset legend:hover {
+  color: #10a37f;
+}
+.main fieldset legend:focus {
+  outline: none;
+}
+.main fieldset legend:after {
+  content: "\25b6";
+  font-size: 16px;
+  line-height: 24px;
+  color: #353740;
+  font-family: "ColfaxAI", Helvetica, sans-serif;
+  font-weight: bold;
+  float: right;
+  margin-top: 2px;
+  margin-left: 10px;
+}
+
 .main .result {
   font-weight: bold;
   margin-top: 40px;
@@ -78,11 +118,26 @@
   white-space: -pre-wrap;      /* Opera 4-6 */
   white-space: -o-pre-wrap;    /* Opera 7 */
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
+
+  
 }
 .main input[type="checkbox"] {
   width: 25px; 
   height: 25px;
 }
+.main .clip {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  justify-content: space-between;
+  /* background color very light shade of button color */
+  width: 80%;
+  background-color: #e6f7f2;
+  margin: 10px auto;
+  padding: 20px;
+  /* rounded corners */
+  border-radius: 15px;
+}
+
 .main select {
   background: transparent;
   width: 100%;
