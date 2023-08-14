@@ -18,6 +18,7 @@ export default function Home() {
   const [bibleVerse, setBibleVerse] = useState("");
   const [egwhite, setEgwhite] = useState(true);
   const [hymns, setHymns] = useState(true);
+  const [translate, setTranslate] = useState("");
   const [result, setResult] = useState();
   const [buttonText, setButtonText] = useState("Generate Program");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -25,12 +26,12 @@ export default function Home() {
   const prevInputValuesRef = useRef({});
 
   useEffect(() => {
-    const inputValues = { title, programFormat, programType, questions, participants, bibleVerse, egwhite, hymns };
+    const inputValues = { title, programFormat, programType, questions, participants, bibleVerse, egwhite, hymns, translate };
     if (JSON.stringify(prevInputValuesRef.current) !== JSON.stringify(inputValues)) {
       onInputChange();
     }
     prevInputValuesRef.current = inputValues;
-  }, [title, programFormat, programType, questions, participants, bibleVerse, egwhite, hymns]);
+  }, [title, programFormat, programType, questions, participants, bibleVerse, egwhite, hymns, translate]);
 
   async function onInputChange(event) {
     try {
@@ -47,7 +48,8 @@ export default function Home() {
           participants,
           bible_verse: bibleVerse,
           egwhite,
-          hymns
+          hymns, 
+          translate
         }),
       });
 
@@ -111,13 +113,13 @@ export default function Home() {
             <option value="Story">Story</option>
             <option value="Readings">Readings</option>
             <option value="Debate">Debate</option>
-            <option value="Q & A">Q & A</option>
+            <option value="Q & A/Quizzes/Trivia">Q & A</option>
             <option value="Skit or Play">Skit or Play</option>
             <option value="Musical">Musical</option>
             <option value="Outdoors & Nature">Outdoors & Nature</option>
             <option value="Testimonies">Testimonies</option>
             <option value="Bible Study & Discovery">Bible Study & Discovery</option>
-            <option value="Bible Games & Quizzes">Bible Games & Quizzes</option>
+            <option value="Bible Games">Bible Games & Quizzes</option>
           </select>
 
           {/* <select
@@ -178,6 +180,13 @@ export default function Home() {
                 onChange={handleInputChange}
               />
             </label>
+            <input
+            type="text"
+            name="translate"
+            placeholder="Translate to what Language?"
+            value={translate}
+            onChange={(e) => setTranslate(e.target.value)}
+          />
           </CollapsibleField>
             <input type="submit" value="Generate Program"/>
           </form>

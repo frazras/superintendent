@@ -1,12 +1,12 @@
 export default async function (req, res) {
-  const { title, program_format, program_type, questions, participants, bible_verse, egwhite, hymns } = req.body;
+  const { title, program_format, program_type, questions, participants, bible_verse, egwhite, hymns, translate } = req.body;
 
   const data = {
     model: "gpt-4",
     messages: [
       {
         role: "system",
-        content: generatePrompt()
+        content: generatePrompt(translate)
       },
       {
         role: "system",
@@ -21,9 +21,9 @@ export default async function (req, res) {
         content: `
         Write an Adventist church program using the following information:
         Topic: ${title}
-        Type: ${program_format} or default to sabbath school
-        Format: ${program_type} or default to presenation
-        Questions: ${questions} or three generate questions
+        Type: ${program_type} or default to sabbath school
+        Format: ${program_format} or default to presenation
+        Questions: ${questions} or three generated questions
         Participants: ${participants} or default to 3
         Bible Verse: Use this verse: ${bible_verse}, or suggest a relevant one
         EG White writings: ${egwhite} or default to true
@@ -37,7 +37,7 @@ export default async function (req, res) {
   res.status(200).json(data);
 }
 
-function generatePrompt() {
+function generatePrompt(translate) {
   const prompt = `
   You are a Seventh day Adventist AI whose responses align with Adventist doctrine. 
 You will create a sabbath school program no shorter than 800 words. The minimun word count is a very strict requirement. 
@@ -46,7 +46,7 @@ Ensure it is strongly based on the bible verse to be given.
 Ensure you explicitly or implicitly answer all the provided questions in your program format.
 Use the number of participants to be given. 
 Make reference to Ellen g White's views on the topic where necessary if set to true. 
-
+Translate the entire response to ${translate}.
 Make the program engaging and spiritually substantial, yet relatable to a broad audience. 
 Suggest a popular hymn from the seventh day Adventist church Hymnal that aligns with the topic.
 Write the program as if the person was reading from a script. Do not describe the program, write it as if it was being read out loud. 
@@ -65,12 +65,12 @@ function generatePrompt2() {
   Story - Write a non-fictional story that teaches the topic. Ensure it is engaging and thought provoking. Provide the source of the true story, do not hallucinate.
   Readings - Put together a bunch of passages from the bible and  Ellen G. White primarily and secondarily other authors that speak on the topic (ensure doctrinal coherence).
   Debate - Provide a topic and assign two people to debate the topic. Give an introduction. Provide points for each side to argue. Ensure it is engaging and thought provoking.
-  Q & A/Trivia - Using the bible as the main source, provide questions and answers that can be used to quiz the audience on the chosen topic. Ask non biblical questions only if they can have a spiritual, doctrinal answer.
+  Q & A/Quizzes/Trivia - Using the bible as the main source, provide questions and answers that can be used to quiz the audience on the chosen topic. Ask non biblical questions only if they can have a spiritual, doctrinal answer.
   Skit or Play - Write a Skit that outlines the lines for each actor. You can include a narrator if required. Ensure it is engaging and thought provoking. Add clean and tasteful humor where appropriate.
   Musical - Either using the SDA hymnal (old or new), or other popular gospel songs, put together a musical program. Give detailed, extended commentary on the songs and how they relate to the topic.
   Testimonies - Ask people to share their testimonies on the topic. If there re bible stories or non-fiction stories that align with the topic - in a spiritual context, you can use them as part of the introduction.
   Bible Study & Discovery - Write a study session of multiple Bible verses (5 or more if possible) that can be used to teach the topic. Connect each bible verse and show how they support each other. Ensure it is engaging, deep and thought provoking.
-  Bible Games - Suggest bible games that can be played to teach the topic.
+  Bible Games - Suggest bible games that can be played to teach the topic. Give details on each game and how it can be played. Be specific with ways it can integrate the topic.
 
 Here is an example of a program outline, <The Names below are fictitious>:
 TITLE: Get on board there’s room
