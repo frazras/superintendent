@@ -2,7 +2,7 @@ export default async function (req, res) {
   const { title, program_format, program_type, questions, participants, bible_verse, egwhite, hymns, translate } = req.body;
 
   const data = {
-    model: "gpt-4",
+    model: "gpt-3.5-turbo",//"gpt-4",
     messages: [
       {
         role: "system",
