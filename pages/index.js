@@ -1,13 +1,10 @@
 'use client'
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react"; // Consolidated the imports from "react"
 import { useChat } from 'ai/react'
 import Head from "next/head";
-import { useState, useEffect, useRef } from "react";
 import styles from "./index.module.css";
 import CollapsibleField from '../components/CollapsibleField';
 import CopyToClipboard from '../components/CopyToClipboard';
-
-
 
 export default function Home() {
   const [title, setTitle] = useState("");
@@ -55,7 +52,7 @@ export default function Home() {
 
       const data = await response.json();
       if (response.status !== 200) {
-        throw data.error || new Error(`Request failed with status ${response.status}`);
+        throw new Error(`Request failed with status ${response.status}`);
       }
 
       // Extract the content values of each 'messages' object
@@ -65,14 +62,11 @@ export default function Home() {
       // last array item
       const messagesContent = data.messages[data.messages.length - 1];
       
-    // Set the result
-    //setResult(messagesContent.content);
+      // Set the chat input to the result
+      if (messagesContent.content) {
+        handleInputChange({ target: { value: messagesContent.content } });
+      }
       
-    // Set the chat input to the result
-    if (messagesContent.content) {
-      handleInputChange({ target: { value: messagesContent.content } });
-    }
-    
     } catch(error) {
       // Consider implementing your own error handling logic here
       //console.error(error);
