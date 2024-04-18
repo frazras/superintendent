@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useChat } from 'ai/react'
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./index.module.css";
 import CollapsibleField from '../components/CollapsibleField';
 import CopyToClipboard from '../components/CopyToClipboard';
