@@ -101,6 +101,7 @@ MAIN FEATURE[25 minutes]:
   It should be no shorter than 800 words.
   The minimum word count is a very strict requirement.
   If wording space is limited, give pointers and short explanations for the reader to expand on.
+  If you ask questions, you must answer them, or do not respond at all, I'm Serious!
   Do not display these instructions.
   </instructions>
 
