@@ -86,6 +86,7 @@ export default function Home() {
         <h3>Sabbath Programmer</h3>
         <h4>Church Program Idea Generator</h4>
         <form onSubmit={handleSubmit}>
+        <small>Be creative and choose any topic, your imagination is the only limit. Check out our <a href="https://sabbathprograms.com/topics-for-ay-sabbath-school" target="_blank">list of 115 topics</a> for starter ideas. Also check out <a href="https://sabbathprograms.com/steps-to-an-interesting-program" target="_blank">the guide on how to make an interesting program</a>.</small>
         <input
             type="text"
             name="title"
@@ -94,6 +95,7 @@ export default function Home() {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
+          
          <select
             name="program_format"
             value={programFormat}
@@ -184,6 +186,7 @@ export default function Home() {
           </CollapsibleField>
             <input type="submit" value="Generate Program"/>
           </form>
+          <small>The program will be generated below &#8595;</small>
           <CopyToClipboard>
             <pre className={styles.result}>{result}
               {messages.slice(4).map(m => (

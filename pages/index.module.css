@@ -63,12 +63,12 @@
 .main textarea,
 .main input[type="number"],
 .main input[type="checkbox"] {
-  padding: 12px 16px;
+  padding: 10px 15px;
   border: 1px solid #10a37f;
   border-radius: 4px;
   margin-bottom: 24px;
-  width: 100%;
-  min-height: 50px;
+  width: 90%;
+  min-height: 30px;
   resize: both;
   overflow: auto;
   margin-right: 4px;
@@ -93,6 +93,20 @@
 }
 .main input[type="submit"]:hover {
   background-color: #0e8e6d;
+}
+/* make submit button more prominent */
+.main input[type="submit"] {
+  font-size: 24px;
+  line-height: 24px;
+  color: #fff;
+  background-color: #10a37f;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  flex: 1;
+  margin: 0 2px;
+  padding: 12px 16px;
 }
 .main fieldset input, .main fieldset label, .main fieldset textarea {
   width: 80%;
@@ -162,7 +176,7 @@
 
 .main select {
   background: transparent;
-  width: 100%;
+  width: 90%;
   padding: 12px 16px;
   border: 1px solid #10a37f;
   border-radius: 4px;
